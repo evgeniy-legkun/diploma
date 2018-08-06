@@ -1,0 +1,34 @@
+# Dashboard
+
+event log
+
+# Statistics
+
+statistics
+
+# Transportation
+
+$transportation->getTruckers();
+$transportation->transportMaterial();
+$transportation->listOfTransportations();
+
+# Warehouse
+
+$warehouse->createWarehouse();
+$warehouse->changeManager();
+$warehouse->addMaterial();
+$warehouse->receiveMaterial();
+$warehouse->removeMaterial();
+
+$materialTypeService->createType();
+$materialTypeService->updateType();
+$materialTypeService->deleteType();
+
+# Users
+
+$userService->createUser();
+$userService->updateUser();
+$userService->deleteUser();
+$userService->changeUserRole();
+
+
