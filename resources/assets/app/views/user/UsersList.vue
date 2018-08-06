@@ -33,10 +33,10 @@
                                 <td>{{user.email}}</td>
                                 <td>21-02-2018</td>
                                 <td>
-                                    <router-link :to="{name: 'user-edit'}" class="btn btn-info">Редагувати</router-link>
+                                    <router-link :to="{name: 'user-edit', params: {id: user.id}}" class="btn btn-info">Редагувати</router-link>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-danger">Видалити</button>
+                                    <button @click.prevent="removeUser(user.id)" type="button" class="btn btn-danger">Видалити</button>
                                 </td>
                             </tr>
                         </template>
@@ -62,12 +62,29 @@
             }
         },
 
+        methods: {
+            removeUser(userId) {
+                GraphAPI
+                    .exec(`
+                        mutation {
+                          removeUser(id: ${userId}) {id}
+                        }
+                    `).then(response => {
+                        this.loadUsers();
+                    })
+            },
+
+            loadUsers() {
+                GraphAPI
+                    .exec(`query { users {id, name, email} }`)
+                    .then((response) => {
+                        this.users = response.data.data.users;
+                    });
+            }
+        },
+
         created() {
-            GraphAPI
-                .exec(`query { users {id, name, email} }`)
-                .then((response) => {
-                    this.users = response.data.data.users;
-                });
+            this.loadUsers();
         }
 
     }

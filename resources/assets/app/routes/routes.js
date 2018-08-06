@@ -25,7 +25,7 @@ const router = new VueRouter(
                 children: [
                     { path: '/', name: 'users-list', component: UsersListComponent },
                     { path: 'add', name: 'user-create', component: UserCreateComponent },
-                    { path: 'edit', name: 'user-edit', component: UserEditComponent },
+                    { path: 'edit/:id', name: 'user-edit', component: UserEditComponent },
                 ]
             }
         ]

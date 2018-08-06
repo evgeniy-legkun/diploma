@@ -9,27 +9,17 @@
                 <form role="form">
                     <div class="box-body">
                         <div class="form-group">
-                            <label for="email">Email address</label>
-                            <input type="email" class="form-control" id="email" placeholder="Enter email">
+                            <label for="email">E-mail</label>
+                            <input v-model="email" type="email" class="form-control" id="email" placeholder="E-mail">
                         </div>
                         <div class="form-group">
-                            <label for="pass">Password</label>
-                            <input type="password" class="form-control" id="pass" placeholder="Password">
+                            <label for="name">Імя</label>
+                            <input v-model="name" type="text" class="form-control" id="name" placeholder="Імя">
                         </div>
-                        <div class="form-group">
-                            <label for="first_name">First name</label>
-                            <input type="password" class="form-control" id="first_name" placeholder="Password">
-                        </div>
-                        <div class="form-group">
-                            <label for="last_name">Last name</label>
-                            <input type="password" class="form-control" id="last_name" placeholder="Password">
-                        </div>
-
                     </div>
-                    <!-- /.box-body -->
 
                     <div class="box-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button @click.prevent="editUser" type="submit" class="btn btn-primary">Редагувати</button>
                     </div>
                 </form>
 
@@ -46,17 +36,46 @@
 
         data() {
             return {
-                users: []
+                id: this.$route.params.id,
+                email: '',
+                name: '',
             }
         },
 
-        created() {
-            GraphAPI
-                .exec(`query { users {id, name, email} }`)
-                .then((response) => {
-                    this.users = response.data.data.users;
-                });
-        }
+        methods: {
 
+            loadUser(userId) {
+                GraphAPI.exec(`
+                    query {
+                      user(id: ${userId}) {
+                        id,
+                        name,
+                        email,
+                      }
+                    }
+                `).then(response => {
+                    let user = response.data.data.user;
+                    this.email = user.email;
+                    this.name = user.name;
+                })
+            },
+
+            editUser() {
+                GraphAPI.exec(`
+                    mutation {
+                        updateUser(id:${this.id}, name: "${this.name}", email: "${this.email}") {
+                            id
+                        }
+                    }
+                `).then(response => {
+                    this.$router.push({name: 'users-list'});
+                })
+            }
+        },
+
+        mounted() {
+            this.loadUser(this.id);
+
+        }
     }
 </script>

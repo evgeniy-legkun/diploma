@@ -15,29 +15,28 @@ class UserManger implements UserManagerInterface
     /**
      * @param string $email
      * @param string $password
-     * @param string $firstName
-     * @param string $lastName
+     * @param string $name
      * @param string $roleName
      * @return int
      * @throws UserManagerException
      */
     public function createUser(
         string $email,
+        string $name,
         string $password,
-        string $firstName,
-        string $lastName,
         string $roleName
     ): int {
 
-        if (null != User::find(['email' => $email])) {
+
+        if (0 < User::where(['email' => $email])->count()) {
             throw new UserManagerException('Користувач із даним емейлом вже існує в системі');
         }
 
         $user = User::create(
             [
-                'email' => $email. rand(1,200),
+                'email' => $email,
                 'password' => bcrypt($password),
-                'name' => $firstName .' '. $lastName,
+                'name' => $name,
             ]
         );
 
@@ -47,17 +46,13 @@ class UserManger implements UserManagerInterface
     /**
      * @param int $userId
      * @param string $email
-     * @param null|string $password
-     * @param string $firstName
-     * @param string $lastName
+     * @param string $name
      * @throws UserManagerException
      */
     public function updateUser(
         int $userId,
         string $email,
-        ?string $password,
-        string $firstName,
-        string $lastName
+        string $name
     ): void {
 
         $user = $this->getUser($userId);
@@ -66,7 +61,7 @@ class UserManger implements UserManagerInterface
                 ['id' , '<>', $userId],
                 ['email', '=', $email]
             ]
-        )->get();
+        )->first();
 
         if (null != $userWithEmail) {
             throw new UserManagerException('Даний емейл належить іншому користувачу');
@@ -74,9 +69,8 @@ class UserManger implements UserManagerInterface
 
         $user->update(
             [
-                'email' => $email. rand(1,200),
-                'password' => null == $password ? $user->password : bcrypt($password),
-                'name' => $firstName .' '. $lastName,
+                'email' => $email,
+                'name' => $name,
             ]
         );
     }

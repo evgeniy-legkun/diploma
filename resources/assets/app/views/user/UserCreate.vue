@@ -9,27 +9,21 @@
                 <form role="form">
                     <div class="box-body">
                         <div class="form-group">
-                            <label for="email">Email address</label>
-                            <input type="email" class="form-control" id="email" placeholder="Enter email">
+                            <label for="email">E-mail</label>
+                            <input v-model="email" type="email" class="form-control" id="email" placeholder="E-mail">
                         </div>
                         <div class="form-group">
-                            <label for="pass">Password</label>
-                            <input type="password" class="form-control" id="pass" placeholder="Password">
+                            <label for="pass">Пароль</label>
+                            <input v-model="password" type="password" class="form-control" id="pass" placeholder="Пароль">
                         </div>
                         <div class="form-group">
-                            <label for="first_name">First name</label>
-                            <input type="password" class="form-control" id="first_name" placeholder="Password">
+                            <label for="name">Імя</label>
+                            <input v-model="name" type="text" class="form-control" id="name" placeholder="Імя">
                         </div>
-                        <div class="form-group">
-                            <label for="last_name">Last name</label>
-                            <input type="password" class="form-control" id="last_name" placeholder="Password">
-                        </div>
-
                     </div>
-                    <!-- /.box-body -->
 
                     <div class="box-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button @click.prevent="createUser" type="submit" class="btn btn-primary">Створити</button>
                     </div>
                 </form>
 
@@ -46,17 +40,29 @@
 
         data() {
             return {
-                users: []
+                email: '',
+                name: '',
+                password: '',
             }
         },
 
-        created() {
-            GraphAPI
-                .exec(`query { users {id, name, email} }`)
-                .then((response) => {
-                    this.users = response.data.data.users;
-                });
-        }
+        methods: {
 
+            createUser() {
+                GraphAPI.exec(`
+                    mutation {
+                        createUser(
+                            name: "${this.name}",
+                            email: "${this.email}",
+                            password: "${this.password}",
+                            role:"user"
+                        ) { id, name, email }
+                    }
+                `).then((response) => {
+                    this.$router.push({name: 'users-list'});
+                });
+
+            }
+        }
     }
 </script>
