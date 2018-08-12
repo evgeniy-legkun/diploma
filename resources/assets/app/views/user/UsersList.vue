@@ -21,6 +21,7 @@
                             <th style="width: 10px">#</th>
                             <th>Повне Ім'я</th>
                             <th>Ел. пошта</th>
+                            <th>Роль</th>
                             <th>Створений</th>
                             <th>Редагувати</th>
                             <th>Видалити</th>
@@ -31,7 +32,8 @@
                                 <td>{{user.id}}</td>
                                 <td>{{user.name}}</td>
                                 <td>{{user.email}}</td>
-                                <td>21-02-2018</td>
+                                <td>{{ (user.role in roles) ? roles[user.role] : '-'}}</td>
+                                <td>{{user.created}}</td>
                                 <td>
                                     <router-link :to="{name: 'user-edit', params: {id: user.id}}" class="btn btn-info">Редагувати</router-link>
                                 </td>
@@ -58,27 +60,33 @@
 
         data() {
             return {
-                users: []
+                users: [],
+                roles: {}
             }
         },
 
         methods: {
             removeUser(userId) {
                 GraphAPI
-                    .exec(`
-                        mutation {
-                          removeUser(id: ${userId}) {id}
-                        }
-                    `).then(response => {
+                    .exec(`mutation { removeUser(id: ${userId}) {id} }`).then(response => {
                         this.loadUsers();
                     })
             },
 
             loadUsers() {
                 GraphAPI
-                    .exec(`query { users {id, name, email} }`)
+                    .exec(`
+                        query {
+                            users { id, name, email, created, role },
+                            roles { code, name }
+                        }
+                    `)
                     .then((response) => {
                         this.users = response.data.data.users;
+
+                        for(let role of response.data.data.roles) {
+                            this.roles[role.code] = role.name;
+                        }
                     });
             }
         },

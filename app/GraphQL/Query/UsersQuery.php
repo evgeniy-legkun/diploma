@@ -29,10 +29,7 @@ class UsersQuery extends Query
                 'name' => 'email',
                 'type' => Type::string()
             ],
-            'name' => [
-                'name' => 'name',
-                'type' => Type::string()
-            ]
+
         ];
     }
 

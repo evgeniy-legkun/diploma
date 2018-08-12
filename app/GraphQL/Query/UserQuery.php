@@ -2,7 +2,7 @@
 
 namespace App\GraphQL\Query;
 
-use App\Contracts\Services\UserManager\UserManagerInterface;
+use App\Services\UserManager\UserManger;
 use GraphQL;
 use GraphQL\Type\Definition\Type;
 use Folklore\GraphQL\Support\Query;
@@ -13,7 +13,7 @@ class UserQuery extends Query
 
     protected $userManager;
 
-    public function __construct($attributes = [], UserManagerInterface $userManager)
+    public function __construct($attributes = [], UserManger $userManager)
     {
         $this->userManager = $userManager;
         parent::__construct($attributes);

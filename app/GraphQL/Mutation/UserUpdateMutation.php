@@ -2,7 +2,7 @@
 
 namespace App\GraphQL\Mutation;
 
-use App\Contracts\Services\UserManager\UserManagerInterface;
+use App\Services\UserManager\UserManger;
 use GraphQL;
 use GraphQL\Type\Definition\Type;
 use Folklore\GraphQL\Support\Mutation;
@@ -12,7 +12,7 @@ class UserUpdateMutation extends Mutation
 {
     protected $userManager;
 
-    public function __construct($attributes = [], UserManagerInterface $userManager)
+    public function __construct($attributes = [], UserManger $userManager)
     {
         $this->userManager = $userManager;
         parent::__construct($attributes);
@@ -32,7 +32,9 @@ class UserUpdateMutation extends Mutation
         return [
             'id' => ['name' => 'id', 'type' => Type::int()],
             'name' => ['name' => 'name', 'type' => Type::string()],
-            'email' => ['name' => 'email', 'type' => Type::string()]
+            'email' => ['name' => 'email', 'type' => Type::string()],
+            'role' => ['name' => 'role', 'type' => Type::int()],
+            'password' => ['name' => 'password', 'type' => Type::string()]
         ];
     }
 
@@ -43,7 +45,9 @@ class UserUpdateMutation extends Mutation
         $this->userManager->updateUser(
             $args['id'],
             $args['email'],
-            $args['name']
+            $args['name'],
+            $args['role'],
+            $args['password']
         );
 
         return $updatedUser;

@@ -125,7 +125,8 @@ return [
         'default' => [
             'query' => [
                 'users' => App\GraphQL\Query\UsersQuery::class,
-                'user' => App\GraphQL\Query\UserQuery::class
+                'user' => App\GraphQL\Query\UserQuery::class,
+                'roles' => App\GraphQL\Query\RolesQuery::class
             ],
             'mutation' => [
                 'createUser' => App\GraphQL\Mutation\UserCreateMutation::class,
@@ -184,7 +185,8 @@ return [
      * ]
      */
     'types' => [
-        'User' => \App\GraphQL\Type\UserType::class
+        'User' => \App\GraphQL\Type\UserType::class,
+        'Role' => \App\GraphQL\Type\RoleType::class
     ],
 
     /*

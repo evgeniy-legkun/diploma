@@ -2,21 +2,19 @@
 
 namespace App\Services\UserManager;
 
-use App\Contracts\Models\UserInterface;
-use App\Contracts\Services\UserManager\UserManagerInterface;
 use App\Models\User;
 
 /**
  * Class UserManger
  * @package App\Services\UserManager
  */
-class UserManger implements UserManagerInterface
+class UserManger
 {
     /**
      * @param string $email
-     * @param string $password
      * @param string $name
-     * @param string $roleName
+     * @param string $password
+     * @param int $role
      * @return int
      * @throws UserManagerException
      */
@@ -24,7 +22,7 @@ class UserManger implements UserManagerInterface
         string $email,
         string $name,
         string $password,
-        string $roleName
+        int $role
     ): int {
 
 
@@ -37,6 +35,7 @@ class UserManger implements UserManagerInterface
                 'email' => $email,
                 'password' => bcrypt($password),
                 'name' => $name,
+                'role' => $role
             ]
         );
 
@@ -47,12 +46,16 @@ class UserManger implements UserManagerInterface
      * @param int $userId
      * @param string $email
      * @param string $name
+     * @param int $role
+     * @param string $password
      * @throws UserManagerException
      */
     public function updateUser(
         int $userId,
         string $email,
-        string $name
+        string $name,
+        int $role,
+        string $password
     ): void {
 
         $user = $this->getUser($userId);
@@ -71,6 +74,8 @@ class UserManger implements UserManagerInterface
             [
                 'email' => $email,
                 'name' => $name,
+                'role' => $role,
+                'password' => bcrypt($password)
             ]
         );
     }
@@ -99,7 +104,7 @@ class UserManger implements UserManagerInterface
      * @return UserInterface
      * @throws UserManagerException
      */
-    public function getUser(int $userId): UserInterface
+    public function getUser(int $userId): User
     {
         $user = User::find($userId);
 

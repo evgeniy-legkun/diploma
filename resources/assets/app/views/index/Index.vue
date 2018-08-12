@@ -25,11 +25,10 @@
          <section class="sidebar">
             <ul class="sidebar-menu" data-widget="tree">
                <li><router-link to="/"><i class="fa fa-circle-o text-aqua"></i> <span>Головна</span></router-link></li>
-               <li><router-link to="/statistics"><i class="fa fa-circle-o text-aqua"></i> <span>Статистика</span></router-link></li>
                <li><router-link to="/warehouse"><i class="fa fa-circle-o text-aqua"></i> <span>Склади</span></router-link></li>
                <li><router-link to="/transportation"><i class="fa fa-circle-o text-aqua"></i> <span>Перевезення</span></router-link></li>
                <li><router-link to="/user"><i class="fa fa-circle-o text-aqua"></i> <span>Користувачі</span></router-link></li>
-               <li><router-link to="/exit"><i class="fa fa-circle-o text-aqua"></i> <span>Вихід</span></router-link></li>
+               <li><a href="/logout"><i class="fa fa-circle-o text-aqua"></i> <span>Вихід</span></a></li>
             </ul>
          </section>
       </aside>

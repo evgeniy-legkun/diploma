@@ -27,7 +27,11 @@ class UserType extends GraphQLType
                 'type' => Type::string(),
                 'description' => 'a user name'
             ],
-            'created_at' => [
+            'role' => [
+                'type' => Type::int(),
+                'description' => 'a role code'
+            ],
+            'created' => [
                 'type' => Type::string(),
                 'description' => 'Created timestamp'
             ]
