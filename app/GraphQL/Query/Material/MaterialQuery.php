@@ -5,6 +5,7 @@ namespace App\GraphQL\Query\Material;
 use App\Services\MaterialManager\MaterialManager;
 use GraphQL;
 use Folklore\GraphQL\Support\Query;
+use GraphQL\Type\Definition\Type;
 
 class MaterialQuery extends Query
 {
@@ -23,7 +24,12 @@ class MaterialQuery extends Query
 
     public function args()
     {
-        return [];
+        return [
+            'id' => [
+                'name' => 'id',
+                'type' => Type::int()
+            ],
+        ];
     }
 
     /**

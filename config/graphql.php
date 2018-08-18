@@ -146,6 +146,8 @@ return [
                 'createWarehouse' => App\GraphQL\Mutation\Warehouse\WarehouseCreateMutation::class,
                 'updateWarehouse' => App\GraphQL\Mutation\Warehouse\WarehouseUpdateMutation::class,
                 'removeWarehouse' => App\GraphQL\Mutation\Warehouse\WarehouseRemoveMutation::class,
+                'addWarehouseMaterial' => App\GraphQL\Mutation\Warehouse\WarehouseAddMaterialMutation::class,
+                'removeWarehouseMaterial' => App\GraphQL\Mutation\Warehouse\WarehouseRemoveMaterialMutation::class,
 
                 'createMaterial' => App\GraphQL\Mutation\Material\MaterialCreateMutation::class,
                 'updateMaterial' => App\GraphQL\Mutation\Material\MaterialUpdateMutation::class,

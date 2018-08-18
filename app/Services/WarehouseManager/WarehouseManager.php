@@ -3,6 +3,7 @@
 namespace App\Services\WarehouseManager;
 
 use App\Models\Warehouse;
+use App\Services\MaterialManager\MaterialManager;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
@@ -11,6 +12,20 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class WarehouseManager
 {
+    /**
+     * @var MaterialManager
+     */
+    protected $materialManager;
+
+    /**
+     * WarehouseManager constructor.
+     * @param MaterialManager $materialManager
+     */
+    public function __construct(MaterialManager $materialManager)
+    {
+        $this->materialManager = $materialManager;
+    }
+
     /**
      * @param string $name
      * @param string $address
@@ -53,7 +68,7 @@ class WarehouseManager
      * @throws WarehouseManagerException
      * @throws \Exception
      */
-    public function removeWarehouse(int $warehouseId)
+    public function removeWarehouse(int $warehouseId): void
     {
         $warehouse = $this->getWarehouse($warehouseId);
         $warehouse->delete();
@@ -69,7 +84,7 @@ class WarehouseManager
         $warehouse = Warehouse::find($warehouseId);
 
         if (null == $warehouse) {
-            throw new WarehouseManagerException('Склад не був знайдений');
+            throw new WarehouseManagerException('Склад не знайдений');
         }
 
         return $warehouse;
@@ -81,5 +96,75 @@ class WarehouseManager
     public function getAllWarehouses(): Collection
     {
         return Warehouse::all();
+    }
+
+    /**
+     * @param int $warehouseId
+     * @param int $materialId
+     * @param float $quantity
+     * @throws WarehouseManagerException
+     * @throws \App\Services\MaterialManager\MaterialManagerException
+     */
+    public function addMaterialToWarehouse(
+        int $warehouseId,
+        int $materialId,
+        float $quantity
+    ): void {
+        $material = $this->materialManager->getMaterial($materialId);
+        $warehouse = $this->getWarehouse($warehouseId);
+        $warehouseMaterials = [];
+
+        foreach ($warehouse->materials()->get() as $warehouseMaterial) {
+            $warehouseMaterials[$warehouseMaterial->id] = [
+                'quantity' => $warehouseMaterial->pivot->quantity
+            ];
+        }
+
+        if (!key_exists($material->id, $warehouseMaterials)) {
+            $warehouseMaterials[$material->id] = ['quantity' => 0];
+        }
+
+        $warehouseMaterials[$material->id]['quantity'] += $quantity;
+        $warehouse->materials()->sync($warehouseMaterials);
+    }
+
+    /**
+     * @param int $warehouseId
+     * @param int $materialId
+     * @param float $quantity
+     * @throws WarehouseManagerException
+     * @throws \App\Services\MaterialManager\MaterialManagerException
+     */
+    public function removeMaterialFromWarehouse(
+        int $warehouseId,
+        int $materialId,
+        float $quantity
+    ): void {
+
+        $material = $this->materialManager->getMaterial($materialId);
+        $warehouse = $this->getWarehouse($warehouseId);
+        $warehouseMaterials = [];
+
+        foreach ($warehouse->materials()->get() as $warehouseMaterial) {
+            $warehouseMaterials[$warehouseMaterial->id] = [
+                'quantity' => $warehouseMaterial->pivot->quantity
+            ];
+        }
+
+        if (!key_exists($material->id, $warehouseMaterials)) {
+            $warehouseMaterials[$material->id] = ['quantity' => 0];
+        }
+
+        if ($warehouseMaterials[$material->id]['quantity'] - $quantity < 0) {
+            throw new WarehouseManagerException(
+                'Не можливо видалити більше матеріалу ніж є на складі'
+            );
+        } elseif ($warehouseMaterials[$material->id]['quantity'] - $quantity > 0) {
+            $warehouseMaterials[$material->id]['quantity'] -= $quantity;
+        } else {
+            unset($warehouseMaterials[$material->id]);
+        }
+
+        $warehouse->materials()->sync($warehouseMaterials);
     }
 }

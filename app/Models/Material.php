@@ -11,4 +11,5 @@ class Material extends Model
 
     protected $table = 'materials';
     protected $fillable = ['name', 'unit'];
+    public $timestamps = false;
 }
