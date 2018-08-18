@@ -1,14 +1,13 @@
 <?php
 
-namespace App\GraphQL\Mutation;
+namespace App\GraphQL\Mutation\User;
 
 use App\Services\UserManager\UserManger;
 use GraphQL;
 use GraphQL\Type\Definition\Type;
 use Folklore\GraphQL\Support\Mutation;
-use App\Models\User;
 
-class UserCreateMutation extends Mutation
+class UserUpdateMutation extends Mutation
 {
     protected $userManager;
 
@@ -19,7 +18,7 @@ class UserCreateMutation extends Mutation
     }
 
     public $attributes = [
-        'name' => 'createUser'
+        'name' => 'updateUser'
     ];
 
     public function type()
@@ -30,23 +29,31 @@ class UserCreateMutation extends Mutation
     public function args()
     {
         return [
+            'id' => ['name' => 'id', 'type' => Type::int()],
             'name' => ['name' => 'name', 'type' => Type::string()],
             'email' => ['name' => 'email', 'type' => Type::string()],
-            'password' => ['name' => 'password', 'type' => Type::string()],
-            'role' => ['name' => 'role', 'type' => Type::int()]
+            'role' => ['name' => 'role', 'type' => Type::int()],
+            'password' => ['name' => 'password', 'type' => Type::string()]
         ];
     }
 
+    /**
+     * @param $root
+     * @param $args
+     * @throws \App\Services\UserManager\UserManagerException
+     */
     public function resolve($root, $args)
     {
-        $userId = $this->userManager->createUser(
+        $updatedUser = $this->userManager->getUser($args['id']);
+
+        $this->userManager->updateUser(
+            $args['id'],
             $args['email'],
             $args['name'],
-            $args['password'],
-            $args['role']
+            $args['role'],
+            $args['password']
         );
 
-        $createdUser = $this->userManager->getUser($userId);
-        return $createdUser;
+        return $updatedUser;
     }
 }

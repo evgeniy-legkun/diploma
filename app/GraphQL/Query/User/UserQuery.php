@@ -1,15 +1,16 @@
 <?php
 
-namespace App\GraphQL\Mutation;
+namespace App\GraphQL\Query\User;
 
 use App\Services\UserManager\UserManger;
 use GraphQL;
 use GraphQL\Type\Definition\Type;
-use Folklore\GraphQL\Support\Mutation;
+use Folklore\GraphQL\Support\Query;
 use App\Models\User;
 
-class UserRemoveMutation extends Mutation
+class UserQuery extends Query
 {
+
     protected $userManager;
 
     public function __construct($attributes = [], UserManger $userManager)
@@ -18,8 +19,8 @@ class UserRemoveMutation extends Mutation
         parent::__construct($attributes);
     }
 
-    public $attributes = [
-        'name' => 'removeUser'
+    protected $attributes = [
+        'name' => 'user'
     ];
 
     public function type()
@@ -30,14 +31,16 @@ class UserRemoveMutation extends Mutation
     public function args()
     {
         return [
-            'id' => ['name' => 'id', 'type' => Type::int()]
+            'id' => [
+                'name' => 'id',
+                'type' => Type::int()
+            ]
         ];
     }
 
     public function resolve($root, $args)
     {
         $user = $this->userManager->getUser($args['id']);
-        $this->userManager->removeUser($args['id']);
         return $user;
     }
 }

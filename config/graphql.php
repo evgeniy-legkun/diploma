@@ -124,14 +124,25 @@ return [
     'schemas' => [
         'default' => [
             'query' => [
-                'users' => App\GraphQL\Query\UsersQuery::class,
-                'user' => App\GraphQL\Query\UserQuery::class,
+
+                'users' => App\GraphQL\Query\User\UsersQuery::class,
+                'user' => App\GraphQL\Query\User\UserQuery::class,
+
+                'warehouses' => App\GraphQL\Query\Warehouse\WarehousesQuery::class,
+                'warehouse' => App\GraphQL\Query\Warehouse\WarehouseQuery::class,
+
                 'roles' => App\GraphQL\Query\RolesQuery::class
+
             ],
+
             'mutation' => [
-                'createUser' => App\GraphQL\Mutation\UserCreateMutation::class,
-                'removeUser' => App\GraphQL\Mutation\UserRemoveMutation::class,
-                'updateUser' => App\GraphQL\Mutation\UserUpdateMutation::class
+                'createUser' => App\GraphQL\Mutation\User\UserCreateMutation::class,
+                'removeUser' => App\GraphQL\Mutation\User\UserRemoveMutation::class,
+                'updateUser' => App\GraphQL\Mutation\User\UserUpdateMutation::class,
+
+                'createWarehouse' => App\GraphQL\Mutation\Warehouse\WarehouseCreateMutation::class,
+                'updateWarehouse' => App\GraphQL\Mutation\Warehouse\WarehouseUpdateMutation::class,
+                'removeWarehouse' => App\GraphQL\Mutation\Warehouse\WarehouseRemoveMutation::class
             ]
         ]
     ],
@@ -186,7 +197,8 @@ return [
      */
     'types' => [
         'User' => \App\GraphQL\Type\UserType::class,
-        'Role' => \App\GraphQL\Type\RoleType::class
+        'Role' => \App\GraphQL\Type\RoleType::class,
+        'Warehouse' => \App\GraphQL\Type\WarehouseType::class
     ],
 
     /*
