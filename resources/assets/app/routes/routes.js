@@ -49,11 +49,11 @@ const router = new VueRouter(
                 children: [
                     { path: '/', name: 'warehouses-list', component: WarehousesListComponent },
                     { path: 'warehouse-create', name:'warehouse-create', component: WarehouseCreateComponent},
-                    { path: 'warehouse-edit', name:'warehouse-edit', component: WarehouseEditComponent},
+                    { path: 'warehouse-edit/:id', name:'warehouse-edit', component: WarehouseEditComponent},
                     { path: 'warehouse-materials', name: 'warehouse-materials', component: WarehouseMaterialsListComponent },
                     { path: 'materials', name:'materials-list', component: MaterialsListComponent },
                     { path: 'material-create', name:'material-create', component: MaterialCreateComponent },
-                    { path: 'material-edit', name:'material-edit', component: MaterialEditComponent },
+                    { path: 'material-edit/:id', name:'material-edit', component: MaterialEditComponent },
                 ]
             },
 

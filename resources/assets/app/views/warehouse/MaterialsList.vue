@@ -20,23 +20,20 @@
                             <th style="width: 10px">#</th>
                             <th>Матеріал</th>
                             <th>Одиниці вимірювання</th>
-                            <th>Опис</th>
                             <th>Редагувати</th>
                             <th>Видалити</th>
                         </tr>
 
-                        <tr>
-                            <td style="width: 10px">1</td>
-                            <td>Фарба</td>
-                            <td>Літри</td>
-                            <td>Фарба акрилова</td>
-                            <td>
-                                <router-link :to="{name: 'material-edit'}" class="btn btn-warning">Редагувати</router-link>
-                            </td>
-                            <td>
-                                <button class="btn btn-danger">Видалити</button>
-                            </td>
-                        </tr>
+                            <template v-for="material in materials">
+                                <tr>
+                                    <td style="width: 10px">{{material.id}}</td>
+                                    <td>{{material.name}}</td>
+                                    <td>{{units[material.unit]}}</td>
+                                    <td><router-link :to="{name: 'material-edit', params: {id: material.id}}" class="btn btn-warning">Редагувати</router-link></td>
+                                    <td><button @click.prevent="removeMaterial(material.id)" class="btn btn-danger">Видалити</button></td>
+                                </tr>
+                            </template>
+
                         </tbody>
                     </table>
                 </div>
@@ -49,9 +46,54 @@
 </template>
 
 <script>
+
+    import GraphAPI from '../../api/GraphAPI';
+    import measurementUnits from '../../constants/materialUnits';
+
     export default {
         components: {
             'WarehouseTabs': require('./WarehouseTabs')
+        },
+
+        data() {
+            return {
+                units: measurementUnits,
+                materials: []
+            }
+        },
+
+        methods: {
+
+            removeMaterial(materialId) {
+                GraphAPI.exec(`
+                    mutation {
+                        removeMaterial(id: ${materialId}) { id }
+                    }
+                `).then(response => {
+                    this.loadMaterials();
+                });
+            },
+
+            loadMaterials() {
+                GraphAPI.exec(`
+                    query {
+                        materials {
+                            id,
+                            name,
+                            unit
+                        }
+                    }
+                `).then((response) => {
+
+                    this.materials = response.data.data.materials;
+                });
+
+            }
+        },
+
+        created() {
+
+            this.loadMaterials();
         }
     }
 </script>
