@@ -131,6 +131,9 @@ return [
                 'warehouses' => App\GraphQL\Query\Warehouse\WarehousesQuery::class,
                 'warehouse' => App\GraphQL\Query\Warehouse\WarehouseQuery::class,
 
+                'materials' => App\GraphQL\Query\Material\MaterialsQuery::class,
+                'material' => App\GraphQL\Query\Material\MaterialQuery::class,
+
                 'roles' => App\GraphQL\Query\RolesQuery::class
 
             ],
@@ -142,7 +145,11 @@ return [
 
                 'createWarehouse' => App\GraphQL\Mutation\Warehouse\WarehouseCreateMutation::class,
                 'updateWarehouse' => App\GraphQL\Mutation\Warehouse\WarehouseUpdateMutation::class,
-                'removeWarehouse' => App\GraphQL\Mutation\Warehouse\WarehouseRemoveMutation::class
+                'removeWarehouse' => App\GraphQL\Mutation\Warehouse\WarehouseRemoveMutation::class,
+
+                'createMaterial' => App\GraphQL\Mutation\Material\MaterialCreateMutation::class,
+                'updateMaterial' => App\GraphQL\Mutation\Material\MaterialUpdateMutation::class,
+                'removeMaterial' => App\GraphQL\Mutation\Material\MaterialRemoveMutation::class,
             ]
         ]
     ],
@@ -198,7 +205,8 @@ return [
     'types' => [
         'User' => \App\GraphQL\Type\UserType::class,
         'Role' => \App\GraphQL\Type\RoleType::class,
-        'Warehouse' => \App\GraphQL\Type\WarehouseType::class
+        'Warehouse' => \App\GraphQL\Type\WarehouseType::class,
+        'Material' => \App\GraphQL\Type\MaterialType::class,
     ],
 
     /*
