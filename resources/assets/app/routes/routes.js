@@ -16,6 +16,7 @@ import WarehousesComponent from '../views/warehouse/Warehouses';
 import WarehouseCreateComponent from '../views/warehouse/WarehouseCreate';
 import WarehouseEditComponent from '../views/warehouse/WarehouseEdit'
 import WarehouseMaterialsListComponent from '../views/warehouse/WarehouseMaterialsList';
+import WarehouseMaterialAddComponent from '../views/warehouse/WarehouseAddMaterial';
 
 import MaterialsListComponent from '../views/warehouse/MaterialsList';
 import MaterialEditComponent from '../views/warehouse/MaterialEdit';
@@ -50,7 +51,8 @@ const router = new VueRouter(
                     { path: '/', name: 'warehouses-list', component: WarehousesListComponent },
                     { path: 'warehouse-create', name:'warehouse-create', component: WarehouseCreateComponent},
                     { path: 'warehouse-edit/:id', name:'warehouse-edit', component: WarehouseEditComponent},
-                    { path: 'warehouse-materials', name: 'warehouse-materials', component: WarehouseMaterialsListComponent },
+                    { path: 'warehouse-materials/:id', name: 'warehouse-materials', component: WarehouseMaterialsListComponent },
+                    { path: 'warehouse-material-add/:id', name: 'warehouse-material-add', component: WarehouseMaterialAddComponent },
                     { path: 'materials', name:'materials-list', component: MaterialsListComponent },
                     { path: 'material-create', name:'material-create', component: MaterialCreateComponent },
                     { path: 'material-edit/:id', name:'material-edit', component: MaterialEditComponent },

@@ -27,7 +27,7 @@
                 <!-- /.box-body -->
 
                 <div class="box-footer">
-                    <button @click.prevent="saveMaterial" type="submit" class="btn btn-primary">Створити</button>
+                    <button @click.prevent="saveMaterial" type="submit" class="btn btn-primary">Редагувати</button>
                 </div>
             </form>
         </div>

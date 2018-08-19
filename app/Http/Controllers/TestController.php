@@ -9,7 +9,8 @@ class TestController extends Controller
 {
     public function index(WarehouseManager $warehouseManager)
     {
-        $warehouseManager->removeMaterialFromWarehouse(3,3,25);
+        $w = $warehouseManager->getWarehouse(10);
+        dd($w->materials()->first()->pivot->quantity);
         die;
     }
 }

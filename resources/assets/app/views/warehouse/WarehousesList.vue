@@ -30,7 +30,7 @@
                             <template v-for="warehouse in warehouses">
                                 <tr>
                                     <td>{{warehouse.id}}</td>
-                                    <td><router-link :to="{name: 'warehouse-materials'}">{{warehouse.name}}</router-link></td>
+                                    <td><router-link :to="{name: 'warehouse-materials', params: {id: warehouse.id}}">{{warehouse.name}}</router-link></td>
                                     <td>{{warehouse.name}}</td>
                                     <td>{{warehouse.note}}</td>
                                     <td><router-link :to="{name: 'warehouse-edit', params: {id: warehouse.id}}" class="btn btn-warning">Редагвати</router-link></td>
