@@ -3,11 +3,13 @@
 namespace App\Services\TransactionManager;
 
 use App\Models\Transaction;
+use App\Models\User;
 use App\Models\Warehouse;
 use App\Services\MaterialManager\MaterialManager;
 use App\Services\UserManager\UserManger;
 use App\Services\WarehouseManager\WarehouseManager;
 use App\Services\WarehouseManager\WarehouseManagerException;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class TransactionManager
@@ -47,10 +49,11 @@ class TransactionManager
     }
 
     /**
-     * @param int $userId
      * @param int $fromWarehouseId
      * @param int $toWarehouseId
+     * @param int $userId
      * @return int
+     * @throws TransactionManagerException
      * @throws WarehouseManagerException
      * @throws \App\Services\UserManager\UserManagerException
      */
@@ -61,14 +64,21 @@ class TransactionManager
     ): int {
 
         if ($fromWarehouseId == $toWarehouseId) {
-            throw new WarehouseManagerException(
+            throw new TransactionManagerException(
                 'Неможливо створити транзакцію між одним і тим же складом'
+            );
+        }
+
+        $courier = $this->userManager->getUser($userId);
+
+        if ($courier->role != User::ROLE_COURIER) {
+            throw new TransactionManagerException(
+                'Тільки курєри можуть перевозити матеріали'
             );
         }
 
         $fromWarehouse = $this->warehouseManager->getWarehouse($fromWarehouseId);
         $toWarehouse = $this->warehouseManager->getWarehouse($toWarehouseId);
-        $courier = $this->userManager->getUser($userId);
 
         $transaction = Transaction::create(
             [
@@ -145,7 +155,7 @@ class TransactionManager
             );
         }
 
-        $warehouse = $transaction->fromWarehouse()->get();
+        $warehouse = $transaction->fromWarehouse;
 
         foreach ($transaction->materials()->get() as $transactionMaterial) {
             $this->warehouseManager->addMaterialToWarehouse(
@@ -180,6 +190,8 @@ class TransactionManager
     /**
      * @param int $transactionId
      * @throws TransactionManagerException
+     * @throws WarehouseManagerException
+     * @throws \App\Services\MaterialManager\MaterialManagerException
      */
     public function finishTransaction(int $transactionId): void
     {
@@ -188,6 +200,16 @@ class TransactionManager
         if ($transaction->status_code != Transaction::ACCEPTED_STATUS) {
             throw new TransactionManagerException(
                 'Неможливо завершити замовлення в поточному статусі'
+            );
+        }
+
+        $warehouse = $transaction->toWarehouse;
+
+        foreach ($transaction->materials()->get() as $transactionMaterial) {
+            $this->warehouseManager->addMaterialToWarehouse(
+                $warehouse->id,
+                $transactionMaterial->id,
+                $transactionMaterial->pivot->quantity
             );
         }
 
@@ -206,5 +228,11 @@ class TransactionManager
         $transaction->delete();
     }
 
-
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function getAllTransactions(): Collection
+    {
+        return Transaction::all();
+    }
 }

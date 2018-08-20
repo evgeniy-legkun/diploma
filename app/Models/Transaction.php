@@ -22,7 +22,7 @@ class Transaction extends Model
 
     public function courier()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function fromWarehouse()

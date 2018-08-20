@@ -46,8 +46,9 @@ return [
                 'materials' => App\GraphQL\Query\Material\MaterialsQuery::class,
                 'material' => App\GraphQL\Query\Material\MaterialQuery::class,
 
-                'roles' => App\GraphQL\Query\RolesQuery::class
+                'roles' => App\GraphQL\Query\RolesQuery::class,
 
+                'transactions' => App\GraphQL\Query\Transaction\TransactionsQuery::class
             ],
 
             'mutation' => [
@@ -64,6 +65,12 @@ return [
                 'createMaterial' => App\GraphQL\Mutation\Material\MaterialCreateMutation::class,
                 'updateMaterial' => App\GraphQL\Mutation\Material\MaterialUpdateMutation::class,
                 'removeMaterial' => App\GraphQL\Mutation\Material\MaterialRemoveMutation::class,
+
+                'acceptTransaction' => App\GraphQL\Mutation\Transaction\AcceptTransactionMutation::class,
+                'cancelTransaction' => App\GraphQL\Mutation\Transaction\CancelTransactionMutation::class,
+                'removeTransaction' => App\GraphQL\Mutation\Transaction\RemoveTransactionMutation::class,
+                'finishTransaction' => App\GraphQL\Mutation\Transaction\FinishTransactionMutation::class,
+
             ]
         ]
     ],
@@ -81,6 +88,7 @@ return [
         'Warehouse' => \App\GraphQL\Type\WarehouseType::class,
         'Material' => \App\GraphQL\Type\MaterialType::class,
         'WarehouseMaterial' => \App\GraphQL\Type\WarehouseMaterialType::class,
+        'Transaction' => \App\GraphQL\Type\TransactionType::class,
     ],
 
     'error_formatter' => [\Folklore\GraphQL\GraphQL::class, 'formatError'],

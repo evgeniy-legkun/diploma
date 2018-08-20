@@ -6,6 +6,7 @@ use GraphQL;
 use GraphQL\Type\Definition\Type;
 use Folklore\GraphQL\Support\Query;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class UsersQuery extends Query
 {
@@ -23,24 +24,36 @@ class UsersQuery extends Query
         return [
             'id' => [
                 'name' => 'id',
-                'type' => Type::string()
+                'type' => Type::int()
             ],
             'email' => [
                 'name' => 'email',
                 'type' => Type::string()
             ],
+            'role' => [
+                'name' => 'role',
+                'type' => Type::int()
+            ]
 
         ];
     }
 
     public function resolve($root, $args)
     {
+        $queryBuilder = User::select();
+
         if (isset($args['id'])) {
-            return User::where('id' , $args['id'])->get();
-        } else if(isset($args['email'])) {
-            return User::where('email', $args['email'])->get();
-        } else {
-            return User::all();
+            $queryBuilder->where('id', $args['id']);
         }
+
+        if (isset($args['email'])) {
+            $queryBuilder->where('email', $args['email']);
+        }
+
+        if (isset($args['role'])) {
+            $queryBuilder->where('role', $args['role']);
+        }
+
+        return $queryBuilder->get();
     }
 }
