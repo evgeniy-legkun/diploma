@@ -10,6 +10,7 @@ import UserEditComponent from '../views/user/UserEdit';
 import TransportationComponent from '../views/transportation/Transportation';
 import TransportationCarriersComponent from '../views/transportation/TransportationCarriers';
 import TransportationListComponent from '../views/transportation/TransportationsList';
+import TransportationCreateComponent from '../views/transportation/TransportationCreate';
 
 import WarehousesListComponent from '../views/warehouse/WarehousesList';
 import WarehousesComponent from '../views/warehouse/Warehouses';
@@ -38,7 +39,8 @@ const router = new VueRouter(
                 name: 'transportation',
                 children: [
                     { path: '/', name: 'transportation-list', component: TransportationListComponent },
-                    { path: '/carriers', name: 'transportation-carriers', component: TransportationCarriersComponent }
+                    { path: 'carriers', name: 'transportation-carriers', component: TransportationCarriersComponent },
+                    { path: 'create/:courierId', name: 'transportation-create', component: TransportationCreateComponent }
                 ]
 
             },

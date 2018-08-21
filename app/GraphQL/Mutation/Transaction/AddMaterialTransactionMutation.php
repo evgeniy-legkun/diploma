@@ -2,13 +2,12 @@
 
 namespace App\GraphQL\Mutation\Transaction;
 
-use App\Services\MaterialManager\MaterialManager;
 use App\Services\TransactionManager\TransactionManager;
 use GraphQL;
 use GraphQL\Type\Definition\Type;
 use Folklore\GraphQL\Support\Mutation;
 
-class CreateTransactionMutation extends Mutation
+class AddMaterialTransactionMutation extends Mutation
 {
     protected $transactionManager;
 
@@ -19,7 +18,7 @@ class CreateTransactionMutation extends Mutation
     }
 
     public $attributes = [
-        'name' => 'createTransaction'
+        'name' => 'addMaterialTransaction'
     ];
 
     public function type()
@@ -30,19 +29,19 @@ class CreateTransactionMutation extends Mutation
     public function args()
     {
         return [
-            'fromWarehouseId' => [
-                'name' => 'fromWarehouseId',
+            'transactionId' => [
+                'name' => 'transactionId',
                 'type' => Type::int()
             ],
 
-            'toWarehouseId' => [
-                'name' => 'toWarehouseId',
+            'materialId' => [
+                'name' => 'materialId',
                 'type' => Type::int()
             ],
 
-            'courierId' => [
-                'name' => 'courierId',
-                'type' => Type::int()
+            'quantity' => [
+                'name' => 'quantity',
+                'type' => Type::float()
             ],
         ];
     }
@@ -56,13 +55,13 @@ class CreateTransactionMutation extends Mutation
      */
     public function resolve($root, $args)
     {
-        $transactionId = $this->transactionManager->createTransaction(
-            $args['from_warehouse_id'],
-            $args['to_warehouse_id'],
-            $args['courier_id']
+        $this->transactionManager->addMaterialsToTransaction(
+            $args['transactionId'],
+            $args['materialId'],
+            $args['quantity']
         );
 
-        $transaction = $this->transactionManager->getTransaction($transactionId);
+        $transaction = $this->transactionManager->getTransaction($args['transactionId']);
         return $transaction;
     }
 }
