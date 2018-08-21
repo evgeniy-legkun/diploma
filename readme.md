@@ -6,4 +6,6 @@ php artisan migrate
 php artisan db:seed
 npm install
 npm run dev
+
+Test user: admin@admin.com 123456
 ```
