@@ -57,9 +57,9 @@ class CreateTransactionMutation extends Mutation
     public function resolve($root, $args)
     {
         $transactionId = $this->transactionManager->createTransaction(
-            $args['from_warehouse_id'],
-            $args['to_warehouse_id'],
-            $args['courier_id']
+            $args['fromWarehouseId'],
+            $args['toWarehouseId'],
+            $args['courierId']
         );
 
         $transaction = $this->transactionManager->getTransaction($transactionId);

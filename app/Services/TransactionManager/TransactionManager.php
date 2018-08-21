@@ -124,7 +124,7 @@ class TransactionManager
         float $quantity
     ): void {
         $transaction = $this->getTransaction($transactionId);
-        $warehouse = $transaction->fromWarehouse()->get();
+        $warehouse = $transaction->fromWarehouse;
         $material = $warehouse->getMaterial($materialId);
 
         $this->warehouseManager->removeMaterialFromWarehouse(

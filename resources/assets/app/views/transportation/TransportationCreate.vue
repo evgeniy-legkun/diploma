@@ -9,6 +9,17 @@
             <form role="form">
 
                 <div class="box-body">
+
+                    <template v-if="errors.length > 0">
+                        <div class="alert alert-danger">
+                            <ul>
+                                <li v-for="error in errors">
+                                    {{error.message}}
+                                </li>
+                            </ul>
+                        </div>
+                    </template>
+
                     <div class="form-group">
                         <label>Із складу</label>
                         <select v-model="fromWarehouse" class="form-control">
@@ -31,14 +42,19 @@
                     <template v-for="warehouseMaterial in warehouseMaterials">
                         <div class="form-group">
                             <label>{{warehouseMaterial.name}} ({{warehouseMaterial.quantity}} {{units[warehouseMaterial.unit]}})</label>
-                            <input class="form-control" type="number" value="0" min="0" :max="warehouseMaterial.quantity">
+                            <input class="form-control"
+                                   type="number"
+                                   value="0"
+                                   min="0"
+                                   v-model="selectedMaterials[warehouseMaterial.id]"
+                                   :max="warehouseMaterial.quantity">
                         </div>
                     </template>
 
                 </div>
 
                 <div class="box-footer">
-                    <button @click.prevent="saveMaterial" type="submit" class="btn btn-primary">Створити</button>
+                    <button @click.prevent="createTransaction" type="submit" class="btn btn-primary">Створити</button>
                 </div>
             </form>
         </div>
@@ -58,10 +74,11 @@
                 warehouses: [],
                 courier: null,
                 units: measurementUnits,
-
+                errors: [],
                 fromWarehouse: null,
                 toWarehouse: null,
-                warehouseMaterials: []
+                warehouseMaterials: [],
+                selectedMaterials: {}
             }
         },
 
@@ -79,6 +96,53 @@
 
         methods: {
 
+            createTransaction() {
+
+                this.errors = [];
+
+                if (!this.fromWarehouse || !this.toWarehouse) {
+                    this.errors.push({
+                        message: 'Заповніть всі поля'
+                    });
+                    return;
+                }
+
+                GraphAPI.exec(`
+                    mutation {
+                      createTransaction(fromWarehouseId: ${this.fromWarehouse}, toWarehouseId: ${this.toWarehouse}, courierId: ${this.courierId}) {
+                        id
+                      }
+                    }
+                `).then(response => {
+
+                    if ('errors' in response.data) {
+                        this.errors = response.data.errors;
+                    }
+
+                    let transactionId = response.data.data.createTransaction.id;
+
+                    for (let materialId in this.selectedMaterials) {
+                        let materialQuantity = this.selectedMaterials[materialId];
+                        if (materialQuantity) {
+                            GraphAPI.exec(`
+                                mutation {
+                                  addMaterialTransaction( transactionId: ${transactionId}, materialId: ${materialId}, quantity: ${materialQuantity}) {
+                                   id
+                                  }
+                                }
+                            `).then(response => {
+                                if ('errors' in response.data) {
+                                    this.errors = response.data.errors;
+                                }
+                            });
+                        }
+                    }
+
+                    this.$router.push({name: 'transportation-list'})
+                });
+
+            },
+
             getWarehouseById(warehouseId) {
                 for(let warehouse of this.warehouses) {
                     if (warehouse.id == warehouseId) {
@@ -91,8 +155,7 @@
                 GraphAPI.exec(`
                     query {
                       warehouses {
-                        id, name,
-                        materials { id, name, unit, quantity }
+                        id, name, materials { id, name, unit, quantity }
                       }
                     }
                 `).then(response => {
