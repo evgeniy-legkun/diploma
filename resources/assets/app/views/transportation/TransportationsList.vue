@@ -7,12 +7,6 @@
             <div class="tab-content">
                 <div class="tab-pane active">
                     <br/>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <router-link :to="{name: 'material-create'}" class="btn btn-success">Створити матеріал</router-link>
-                        </div>
-                    </div>
-                    <br/>
 
                     <table class="table table-bordered">
                         <tbody>
