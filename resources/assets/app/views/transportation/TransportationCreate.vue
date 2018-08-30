@@ -3,17 +3,17 @@
 
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title">Стоворити склад</h3>
+                <h3 class="box-title">Створити перевезення</h3>
             </div>
 
             <form role="form">
 
                 <div class="box-body">
 
-                    <template v-if="errors.length > 0">
+                    <template v-if="validationErrors.length > 0">
                         <div class="alert alert-danger">
                             <ul>
-                                <li v-for="error in errors">
+                                <li v-for="error in validationErrors">
                                     {{error.message}}
                                 </li>
                             </ul>
@@ -74,7 +74,7 @@
                 warehouses: [],
                 courier: null,
                 units: measurementUnits,
-                errors: [],
+                validationErrors: [],
                 fromWarehouse: null,
                 toWarehouse: null,
                 warehouseMaterials: [],
@@ -97,11 +97,10 @@
         methods: {
 
             createTransaction() {
-
-                this.errors = [];
+                this.validationErrors = [];
 
                 if (!this.fromWarehouse || !this.toWarehouse) {
-                    this.errors.push({
+                    this.validationErrors.push({
                         message: 'Заповніть всі поля'
                     });
                     return;
@@ -116,12 +115,16 @@
                 `).then(response => {
 
                     if ('errors' in response.data) {
-                        this.errors = response.data.errors;
+                        this.validationErrors = response.data.errors;
                     }
 
                     let transactionId = response.data.data.createTransaction.id;
 
                     for (let materialId in this.selectedMaterials) {
+                        if (!this.selectedMaterials.hasOwnProperty(materialId)) {
+                          continue;
+                        }
+
                         let materialQuantity = this.selectedMaterials[materialId];
                         if (materialQuantity) {
                             GraphAPI.exec(`
@@ -132,7 +135,7 @@
                                 }
                             `).then(response => {
                                 if ('errors' in response.data) {
-                                    this.errors = response.data.errors;
+                                    this.validationErrors = response.data.errors;
                                 }
                             });
                         }
