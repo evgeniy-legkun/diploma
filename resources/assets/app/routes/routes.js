@@ -23,6 +23,10 @@ import MaterialsListComponent from '../views/warehouse/MaterialsList';
 import MaterialEditComponent from '../views/warehouse/MaterialEdit';
 import MaterialCreateComponent from '../views/warehouse/MaterialCreate';
 
+import ConsumptionListComponent from '../views/consumption/ConsumptionList';
+
+import TransportationMapComponent from '../views/transportation/TransportationMap';
+
 const router = new VueRouter(
     {
         routes: [
@@ -43,6 +47,18 @@ const router = new VueRouter(
                     { path: 'create/:courierId', name: 'transportation-create', component: TransportationCreateComponent }
                 ]
 
+            },
+
+            {
+                path: '/consumption',
+                component: ConsumptionListComponent,
+                name: 'consumption'
+            },
+
+            {
+                path: '/transportation-map',
+                component: TransportationMapComponent,
+                name: 'transportation-map'
             },
 
             {

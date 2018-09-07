@@ -26,7 +26,11 @@
             <ul class="sidebar-menu" data-widget="tree">
                <li><router-link to="/"><i class="fa fa-circle-o text-aqua"></i> <span>Головна</span></router-link></li>
                <li><router-link to="/warehouse"><i class="fa fa-circle-o text-aqua"></i> <span>Склади</span></router-link></li>
+               <li><router-link to="/warehouse/materials"><i class="fa fa-circle-o text-aqua"></i> <span>Матеріали</span></router-link></li>
                <li><router-link to="/transportation"><i class="fa fa-circle-o text-aqua"></i> <span>Перевезення</span></router-link></li>
+               <li><router-link to="/transportation-map"><i class="fa fa-circle-o text-aqua"></i> <span>Карта перевезень</span></router-link></li>
+               <li><router-link to="/consumption"><i class="fa fa-circle-o text-aqua"></i> <span>Витрати на паливо</span></router-link></li>
+               <li><router-link to="/transportation/carriers"><i class="fa fa-circle-o text-aqua"></i> <span>Перевізники</span></router-link></li>
                <li><router-link to="/user"><i class="fa fa-circle-o text-aqua"></i> <span>Користувачі</span></router-link></li>
                <li><a href="/logout"><i class="fa fa-circle-o text-aqua"></i> <span>Вихід</span></a></li>
             </ul>
