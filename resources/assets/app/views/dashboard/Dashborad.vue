@@ -96,7 +96,6 @@
                     }
                 `).then(response => {
                     let transactions = response.data.data.transactions;
-                    console.log(transactions);
 
                     for(let transaction of transactions) {
                         this.totalTransactions ++;

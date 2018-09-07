@@ -21,7 +21,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label >Назва</label>
+                        <label >Кількість</label>
                         <input v-model="quantity" type="text" min="0" class="form-control" placeholder="Кількість">
                     </div>
 
