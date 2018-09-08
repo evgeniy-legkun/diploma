@@ -17,6 +17,9 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="{{asset('theme/dist/css/skins/_all-skins.min.css')}}">
+    {{-- Leaflet maps --}}
+    <link rel="stylesheet" href="{{asset('theme/dist/css/leaflet/leaflet.css')}}">
+    <link rel="stylesheet" href="{{asset('theme/dist/css/leaflet/leaflet-geosearch.css')}}">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

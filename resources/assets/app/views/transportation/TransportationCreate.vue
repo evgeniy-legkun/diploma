@@ -63,7 +63,6 @@
 </template>
 
 <script>
-
     import GraphAPI from '../../api/GraphAPI';
     import measurementUnits from '../../constants/materialUnits';
 

@@ -1,5 +1,4 @@
 <template>
-
     <v-map ref="map"
            :style="style.mapSize"
            :options="mapOptions"
@@ -26,11 +25,9 @@
                      :attribution="tileLayerOptions.attribution">
         </v-tilelayer>
     </v-map>
-
 </template>
 
 <script>
-
     import { mapConfigs } from '../constants/mapConfigs';
     import Vue2Leaflet from 'vue2-leaflet';
     import { EsriProvider } from 'leaflet-geosearch';

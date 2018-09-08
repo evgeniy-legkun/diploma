@@ -45,7 +45,7 @@
 
 <script>
 
-    import locationMap from './location-map'
+    import locationMap from './LocationMap'
     import { mapConfigs } from '../../config/config';
 
     export default {

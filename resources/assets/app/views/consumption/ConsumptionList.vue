@@ -4,14 +4,11 @@
             <section class="content-header">
                 <h1>Витрати на паливо</h1>
             </section>
-
             <section class="content">
-
                 <div class="nav-tabs-custom">
                     <div class="tab-content">
                         <div class="tab-pane active">
                             <br/>
-
                             <table class="table table-bordered">
                                 <tbody>
                                 <tr>
@@ -28,28 +25,10 @@
                                     <tr>
                                         <td style="width: 10px">{{transaction.id}}</td>
                                         <td>{{transaction.courier.name}} ({{transaction.courier.email}})</td>
-                                        <td>{{codes[transaction.status_code]}}</td>
                                         <td>{{transaction.fromWarehouse.name}}</td>
                                         <td>{{transaction.toWarehouse.name}}</td>
-                                        <td>
-                                            <ul>
-                                                <li v-for="material in transaction.materials">
-                                                    {{material.name}} - {{material.quantity}} {{units[material.unit]}}
-                                                </li>
-                                            </ul>
-                                        </td>
-                                        <td>
-                                            <template v-if="transaction.status_code == 1">
-                                                <button @click.prevent="acceptTransaction(transaction.id)" class="btn btn-sm btn-success">Прийняти</button>
-                                                <button @click.prevent="cancelTransaction(transaction.id)" class="btn btn-sm btn-danger">Відхилити</button>
-                                            </template>
-
-                                            <template v-if="transaction.status_code == 2">
-                                                <button @click.prevent="finishTransaction(transaction.id)"  class="btn btn-sm btn-success">Завершити</button>
-                                            </template>
-
-
-                                        </td>
+                                        <td>відстань</td>
+                                        <td>ціна</td>
                                         <td><button @click.prevent="removeTransaction(transaction.id)" class="btn btn-sm btn-danger">Видалити</button></td>
                                     </tr>
                                 </template>
@@ -59,23 +38,23 @@
                         </div>
                     </div>
                 </div>
-
             </section>
-
         </div>
-
 </template>
 
 <script>
-
     import GraphAPI from '../../api/GraphAPI';
+    import measurementUnits from '../../constants/materialUnits';
+    import transactionCodes from '../../constants/transactionCodes';
 
     export default {
 
 
         data() {
             return {
-                transactions: []
+                transactions: [],
+                units: measurementUnits,
+                codes: transactionCodes
             }
         },
 
@@ -93,7 +72,6 @@
                       }
                     }
                 `).then(response => {
-
                     this.transactions = response.data.data.transactions;
                     console.log(this.transactions);
                 });

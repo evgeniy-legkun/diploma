@@ -30,7 +30,6 @@ import TransportationMapComponent from '../views/transportation/TransportationMa
 const router = new VueRouter(
     {
         routes: [
-
             {
                 path: '/',
                 component: DashboardComponent,
@@ -40,7 +39,6 @@ const router = new VueRouter(
             {
                 path: '/transportation',
                 component: TransportationComponent,
-                name: 'transportation',
                 children: [
                     { path: '/', name: 'transportation-list', component: TransportationListComponent },
                     { path: 'carriers', name: 'transportation-carriers', component: TransportationCarriersComponent },
@@ -63,7 +61,6 @@ const router = new VueRouter(
 
             {
                 path: '/warehouse',
-                name:'warehouses',
                 component: WarehousesComponent,
                 children: [
                     { path: '/', name: 'warehouses-list', component: WarehousesListComponent },
@@ -79,7 +76,6 @@ const router = new VueRouter(
 
             {
                 path: '/user',
-                name: 'users',
                 component: UsersComponent,
                 children: [
                     { path: '/', name: 'users-list', component: UsersListComponent },
@@ -87,7 +83,6 @@ const router = new VueRouter(
                     { path: 'edit/:id', name: 'user-edit', component: UserEditComponent },
                 ]
             }
-
         ]
     }
 );

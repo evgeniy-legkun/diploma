@@ -4,28 +4,22 @@
         <section class="content-header">
             <h1>Карта перевезень</h1>
         </section>
-
         <section class="content">
-
             <div class="box">
-                <div class="box-body">
+                <div class="box-body" style="height: 550px">
                     <location-map :options="mapOptions"
                                   :mapCenterPosition="mapCenterPosition"
                                   :markers="markers">
                     </location-map>
                 </div>
-
             </div>
-
         </section>
-
     </div>
 </template>
 
 <script>
-
     import { mapConfigs } from '../../constants/mapConfigs';
-    import locationMap from '../../components/location-map';
+    import locationMap from '../../components/LocationMap';
 
     export default {
 
@@ -62,9 +56,6 @@
 
         methods: {
 
-        },
-
-        created() {
         }
     }
 
