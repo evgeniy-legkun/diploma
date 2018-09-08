@@ -1,22 +1,17 @@
 <template>
     <section class="content">
-
         <div class="nav-tabs-custom">
             <WarehouseTabs activeTab="warehouses"></WarehouseTabs>
             <div class="tab-content">
                 <div class="tab-pane active">
                     <br/>
-
                     <div class="row">
                         <div class="col-md-12">
                             <router-link :to="{name: 'warehouse-create'}" class="btn btn-success">Створити склад</router-link>
                         </div>
                     </div>
-
                     <br/>
-
                     <table class="table table-bordered">
-
                         <tbody>
                             <tr>
                                 <th style="width: 10px">#</th>
@@ -38,20 +33,14 @@
                                 </tr>
                             </template>
                         </tbody>
-
                     </table>
-
                 </div>
             </div>
         </div>
-
-
     </section>
-
 </template>
 
 <script>
-
     import GraphAPI from '../../api/GraphAPI';
 
     export default {
@@ -89,9 +78,7 @@
                         }
                     }
                 `).then((response) => {
-
                     this.warehouses = response.data.data.warehouses;
-
                 });
 
             }

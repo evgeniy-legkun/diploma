@@ -1,14 +1,9 @@
 <template>
     <section class="content">
-
             <div class="box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Дії</h3>
-                </div>
                 <div class="box-body">
                     <router-link :to="{name: 'user-create'}" class="btn btn-success">Створити Користувача</router-link>
                 </div>
-
             </div>
 
             <div class="box">
@@ -19,7 +14,7 @@
                     <table class="table table-bordered">
                         <tbody><tr>
                             <th style="width: 10px">#</th>
-                            <th>Повне Ім'я</th>
+                            <th>Повне iм'я</th>
                             <th>Ел. пошта</th>
                             <th>Роль</th>
                             <th>Створений</th>
@@ -27,8 +22,8 @@
                             <th>Видалити</th>
                         </tr>
 
-                        <template v-for="user in users" v-key="user.id">
-                            <tr>
+                        <template v-for="user in users">
+                            <tr  :key="user.id">
                                 <td>{{user.id}}</td>
                                 <td>{{user.name}}</td>
                                 <td>{{user.email}}</td>
@@ -42,18 +37,14 @@
                                 </td>
                             </tr>
                         </template>
-
                         </tbody>
                     </table>
                 </div>
-
             </div>
-
         </section>
 </template>
 
 <script>
-
     import GraphAPI from '../../api/GraphAPI';
 
     export default {
@@ -94,6 +85,5 @@
         created() {
             this.loadUsers();
         }
-
     }
 </script>

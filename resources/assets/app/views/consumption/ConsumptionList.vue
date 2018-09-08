@@ -2,7 +2,7 @@
         <div>
             <!-- Content Header (Page header) -->
             <section class="content-header">
-                <h1>Витрати на паливо</h1>
+                <h1>Транспортні витрати</h1>
             </section>
             <section class="content">
                 <div class="nav-tabs-custom">
@@ -14,25 +14,25 @@
                                 <tr>
                                     <th style="width: 10px">#</th>
                                     <th>Курєр</th>
-                                    <th>З відки</th>
+                                    <th>Звідки</th>
                                     <th>Куди</th>
                                     <th>Відстань</th>
-                                    <th>Витрати</th>
-                                    <th>Ціна</th>
+                                    <th>Паливо</th>
+                                    <th>Людино-годин</th>
+                                    <th>Сумма</th>
                                 </tr>
-
                                 <template v-for="transaction in transactions">
                                     <tr>
                                         <td style="width: 10px">{{transaction.id}}</td>
                                         <td>{{transaction.courier.name}} ({{transaction.courier.email}})</td>
                                         <td>{{transaction.fromWarehouse.name}}</td>
                                         <td>{{transaction.toWarehouse.name}}</td>
-                                        <td>відстань</td>
-                                        <td>ціна</td>
-                                        <td><button @click.prevent="removeTransaction(transaction.id)" class="btn btn-sm btn-danger">Видалити</button></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>1000$</td>
                                     </tr>
                                 </template>
-
                                 </tbody>
                             </table>
                         </div>
@@ -44,17 +44,13 @@
 
 <script>
     import GraphAPI from '../../api/GraphAPI';
-    import measurementUnits from '../../constants/materialUnits';
-    import transactionCodes from '../../constants/transactionCodes';
 
     export default {
 
 
         data() {
             return {
-                transactions: [],
-                units: measurementUnits,
-                codes: transactionCodes
+                transactions: []
             }
         },
 
@@ -75,48 +71,7 @@
                     this.transactions = response.data.data.transactions;
                     console.log(this.transactions);
                 });
-            },
-
-            acceptTransaction(transactionId) {
-                GraphAPI.exec(`
-                    mutation {
-                      acceptTransaction(id: ${transactionId}) {id}
-                    }
-                `).then(response => {
-                    this.loadTransactions();
-                });
-            },
-
-            cancelTransaction(transactionId) {
-                GraphAPI.exec(`
-                    mutation {
-                      cancelTransaction(id: ${transactionId}) {id}
-                    }
-                `).then(response => {
-                    this.loadTransactions();
-                });
-            },
-
-            removeTransaction(transactionId) {
-                GraphAPI.exec(`
-                    mutation {
-                      removeTransaction(id: ${transactionId}) {id}
-                    }
-                `).then(response => {
-                    this.loadTransactions();
-                });
-            },
-
-            finishTransaction(transactionId) {
-                GraphAPI.exec(`
-                    mutation {
-                      finishTransaction(id: ${transactionId}) {id}
-                    }
-                `).then(response => {
-                    this.loadTransactions();
-                });
-            },
-
+            }
         },
 
         created() {
