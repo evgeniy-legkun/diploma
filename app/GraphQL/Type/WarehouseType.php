@@ -28,6 +28,14 @@ class WarehouseType extends GraphQLType
                 'type' => Type::string(),
                 'description' => 'a user name'
             ],
+            'lat_point' => [
+                'type' => Type::string(),
+                'description' => 'latitude point'
+            ],
+            'lng_point' => [
+                'type' => Type::string(),
+                'description' => 'longitude point'
+            ],
             'note' => [
                 'type' => Type::string(),
                 'description' => ''

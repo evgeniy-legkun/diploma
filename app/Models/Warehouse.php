@@ -9,7 +9,7 @@ class Warehouse extends Model
 {
     protected $table = 'warehouses';
 
-    protected $fillable = ['name', 'address', 'note'];
+    protected $fillable = ['name', 'address', 'lat_point', 'lng_point', 'note'];
 
     public $timestamps = false;
 

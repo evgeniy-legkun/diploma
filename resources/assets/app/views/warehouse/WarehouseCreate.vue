@@ -12,12 +12,19 @@
                     <label>Назва</label>
                     <input v-model="name" type="text" class="form-control" placeholder="Назва">
                 </div>
-
                 <div class="form-group">
                     <label>Адреса</label>
                     <input v-model="address" type="text" class="form-control" placeholder="Адрес">
                 </div>
-
+                <div class="form-group">
+                    <label>Локація</label>
+                    <!--  Choose location  -->
+                    <ChooseLocation @updatedLocationPoint="updateLocationPoint"
+                                    :currentLocationPoint="locationPoint">
+                    </ChooseLocation>
+                </div>
+                <br>
+                <br>
                 <div class="form-group">
                     <label>Опис</label>
                     <textarea v-model="note" class="form-control"></textarea>
@@ -36,37 +43,58 @@
 </template>
 
 <script>
+  import GraphAPI from "../../api/GraphAPI";
+  import ChooseLocation from "../../components/ChooseLocation";
 
-    import GraphAPI from '../../api/GraphAPI';
+  export default {
+    components: {
+      ChooseLocation
+    },
 
-    export default {
-        data() {
-            return {
-                address: '',
-                name: '',
-                note: '',
-            }
+    data() {
+      return {
+        address: "",
+        name: "",
+        locationPoint: {
+          latitude: null,
+          longitude: null
         },
+        note: ""
+      };
+    },
 
-        methods: {
-            saveWarehouse() {
+    methods: {
+      updateLocationPoint(position) {
+        if (position) {
+          this.locationPoint.latitude = position.lat;
+          this.locationPoint.longitude = position.lng;
 
-                GraphAPI.exec(`
+          return;
+        }
+
+        this.locationPoint.latitude = null;
+        this.locationPoint.longitude = null;
+      },
+
+      saveWarehouse() {
+        GraphAPI.exec(`
                     mutation {
                         createWarehouse(
                             address: "${this.address}",
                             name: "${this.name}",
+                            lat_point: "${this.locationPoint.latitude}"
+                            lng_point: "${this.locationPoint.longitude}"
                             note: "${this.note}",
                         ) {
                             id
                         }
                     }
                 `).then((response) => {
-                    this.$router.push({name: 'warehouses-list'});
-                });
+          this.$router.push({ name: "warehouses-list" });
+        });
 
-            }
-        }
+      }
     }
+  };
 
 </script>

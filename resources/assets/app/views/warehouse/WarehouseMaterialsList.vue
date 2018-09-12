@@ -92,7 +92,6 @@
                     let responseData = response.data.data.warehouse;
                     this.warehouseName = responseData.name;
                     this.warehouseMaterials = responseData.materials;
-                    console.log(responseData);
                 });
             }
         },

@@ -31,6 +31,8 @@ class WarehouseCreateMutation extends Mutation
         return [
             'name' => ['name' => 'name', 'type' => Type::string()],
             'address' => ['name' => 'address', 'type' => Type::string()],
+            'lat_point' => ['name' => 'lat_point', 'type' => Type::string()],
+            'lng_point' => ['name' => 'lng_point', 'type' => Type::string()],
             'note' => ['name' => 'note', 'type' => Type::string()],
         ];
     }
@@ -46,6 +48,8 @@ class WarehouseCreateMutation extends Mutation
         $warehouseId = $this->warehouseManager->createWarehouse(
             $args['name'],
             $args['address'],
+            $args['lat_point'],
+            $args['lng_point'],
             $args['note']
         );
 

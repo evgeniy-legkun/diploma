@@ -1,7 +1,5 @@
 <template>
-
     <section class="content">
-
         <div class="box box-primary">
             <div class="box-header with-border">
                 <h3 class="box-title">Редагувати склад</h3>
@@ -17,7 +15,15 @@
                     <label>Адреса</label>
                     <input v-model="address" type="text" class="form-control" placeholder="Адрес">
                 </div>
-
+                <div class="form-group">
+                    <label>Локація</label>
+                    <!--  Choose location  -->
+                    <ChooseLocation @updatedLocationPoint="updateLocationPoint"
+                                    :currentLocationPoint="locationPoint">
+                    </ChooseLocation>
+                </div>
+                <br>
+                <br>
                 <div class="form-group">
                     <label>Опис</label>
                     <textarea v-model="note" class="form-control"></textarea>
@@ -32,66 +38,89 @@
         </div>
 
     </section>
-
 </template>
 
 <script>
+  import GraphAPI from "../../api/GraphAPI";
+  import ChooseLocation from "../../components/ChooseLocation";
 
-    import GraphAPI from '../../api/GraphAPI';
+  export default {
+    components: {
+      ChooseLocation
+    },
 
-    export default {
-        data() {
-            return {
-                warehouseId: this.$route.params.id,
-                address: '',
-                name: '',
-                note: '',
-            }
+    data() {
+      return {
+        warehouseId: this.$route.params.id,
+        address: "",
+        name: "",
+        locationPoint: {
+          latitude: null,
+          longitude: null
         },
+        note: ""
+      };
+    },
 
-        methods: {
+    methods: {
+      updateLocationPoint(position) {
+        if (position) {
+          this.locationPoint.latitude = position.lat;
+          this.locationPoint.longitude = position.lng;
 
-            loadWarehouse(warehouseId) {
-                GraphAPI.exec(`
+          return;
+        }
+
+        this.locationPoint.latitude = null;
+        this.locationPoint.longitude = null;
+      },
+
+      loadWarehouse(warehouseId) {
+        GraphAPI.exec(`
                     query {
                       warehouse(id: ${warehouseId}) {
                         name,
                         address,
+                        lat_point,
+                        lng_point,
                         note
                       }
                     }
                 `).then((response) => {
-                    console.log(response);
-                    let warehouse = response.data.data.warehouse;
-                    this.name = warehouse.name;
-                    this.address = warehouse.address;
-                    this.note = warehouse.note;
-                });
-            },
+          let warehouse = response.data.data.warehouse;
 
-            saveWarehouse() {
+          this.name = warehouse.name;
+          this.address = warehouse.address;
+          this.locationPoint.latitude = warehouse.lat_point;
+          this.locationPoint.longitude = warehouse.lng_point;
+          this.note = warehouse.note;
+        });
+      },
 
-                GraphAPI.exec(`
+      saveWarehouse() {
+        GraphAPI.exec(`
                     mutation {
                         updateWarehouse(
                             id: ${this.warehouseId},
                             name: "${this.name}",
                             address: "${this.address}",
+                            lat_point: "${this.locationPoint.latitude}"
+                            lng_point: "${this.locationPoint.longitude}"
                             note: "${this.note}",
                         ) {
                             id
                         }
                     }
                 `).then((response) => {
-                    this.$router.push({name: 'warehouses-list'})
-                });
+          this.$router.push({ name: "warehouses-list" });
+        });
 
-            },
-        },
+      }
+    },
 
-        created() {
-            this.loadWarehouse(this.warehouseId);
-        }
+    created() {
+      this.loadWarehouse(this.warehouseId);
     }
+  };
 
 </script>

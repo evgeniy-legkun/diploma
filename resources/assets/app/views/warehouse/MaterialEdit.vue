@@ -4,7 +4,7 @@
 
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title">Стоворити склад</h3>
+                <h3 class="box-title">Створити склад</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->

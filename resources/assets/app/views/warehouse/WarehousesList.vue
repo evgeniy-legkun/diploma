@@ -28,7 +28,7 @@
                                     <td><router-link :to="{name: 'warehouse-materials', params: {id: warehouse.id}}">{{warehouse.name}}</router-link></td>
                                     <td>{{warehouse.name}}</td>
                                     <td>{{warehouse.note}}</td>
-                                    <td><router-link :to="{name: 'warehouse-edit', params: {id: warehouse.id}}" class="btn btn-warning">Редагвати</router-link></td>
+                                    <td><router-link :to="{name: 'warehouse-edit', params: {id: warehouse.id}}" class="btn btn-warning">Редагувати</router-link></td>
                                     <td><button @click.prevent="removeWarehouse(warehouse.id)" class="btn btn-danger">Видалити</button></td>
                                 </tr>
                             </template>

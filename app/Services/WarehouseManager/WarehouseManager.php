@@ -29,15 +29,19 @@ class WarehouseManager
     /**
      * @param string $name
      * @param string $address
+     * @param string $lat_point
+     * @param string $lng_point
      * @param string $note
      * @return int
      */
-    public function createWarehouse(string $name, string $address, string $note): int
+    public function createWarehouse(string $name, string $address, string $lat_point, string $lng_point, string $note): int
     {
         $warehouse = Warehouse::create(
             [
                 'name' => $name,
                 'address' => $address,
+                'lat_point' => $lat_point,
+                'lng_point' => $lng_point,
                 'note' => $note
             ]
         );
@@ -52,13 +56,15 @@ class WarehouseManager
      * @param string $note
      * @throws WarehouseManagerException
      */
-    public function updateWarehouse(int $warehouseId, string $name, string $address, string $note): void
+    public function updateWarehouse(int $warehouseId, string $name, string $address, string $lat_point, string $lng_point, string $note): void
     {
         $warehouse = $this->getWarehouse($warehouseId);
 
         $warehouse->update([
             'name' => $name,
             'address' => $address,
+            'lat_point' => $lat_point,
+            'lng_point' => $lng_point,
             'note' => $note
         ]);
     }

@@ -18,6 +18,7 @@
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="{{asset('theme/dist/css/skins/_all-skins.min.css')}}">
     {{-- Leaflet maps --}}
+    <link rel="stylesheet" href="{{asset('theme/dist/css/location.css')}}">
     <link rel="stylesheet" href="{{asset('theme/dist/css/leaflet/leaflet.css')}}">
     <link rel="stylesheet" href="{{asset('theme/dist/css/leaflet/leaflet-geosearch.css')}}">
 
