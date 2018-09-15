@@ -20,6 +20,7 @@
         "vue-resource": "^1.5.1",
         "vue-router": "^3.0.1",
         "vue2-leaflet": "^0.0.58",
-        "vue2-leaflet-geosearch": "^1.0.1"
+        "vue2-leaflet-geosearch": "^1.0.1",
+        "vue2-leaflet-polylinedecorator": "^2.0.1"
     }
 }

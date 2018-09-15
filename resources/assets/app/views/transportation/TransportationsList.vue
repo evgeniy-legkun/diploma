@@ -95,9 +95,7 @@
                       }
                     }
                 `).then(response => {
-
                     this.transactions = response.data.data.transactions;
-                    console.log(this.transactions);
                 });
             },
 

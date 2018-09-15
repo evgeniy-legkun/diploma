@@ -40,7 +40,7 @@
                   <router-link to="/transportation"><i class="fa fa-circle-o text-aqua"></i> <span>Перевезення</span></router-link>
                </li>
                <li>
-                  <router-link to="/transportation-map"><i class="fa fa-circle-o text-aqua"></i> <span>Карта перевезень</span></router-link>
+                  <router-link to="/warehouses-map"><i class="fa fa-circle-o text-aqua"></i> <span>Карта складов</span></router-link>
                </li>
                <li>
                   <router-link to="/consumption"><i class="fa fa-circle-o text-aqua"></i> <span>Транспортні витрати</span></router-link>

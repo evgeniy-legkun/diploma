@@ -25,7 +25,7 @@ import MaterialCreateComponent from "../views/warehouse/MaterialCreate";
 
 import ConsumptionListComponent from "../views/consumption/ConsumptionList";
 
-import TransportationMapComponent from "../views/transportation/TransportationMap";
+import WarehousesMapComponent from "../views/warehouse/WarehousesMap";
 
 const router = new VueRouter(
   {
@@ -54,9 +54,9 @@ const router = new VueRouter(
       },
 
       {
-        path: "/transportation-map",
-        component: TransportationMapComponent,
-        name: "transportation-map"
+        path: "/warehouses-map",
+        component: WarehousesMapComponent,
+        name: "warehouses-map"
       },
 
       {
