@@ -12,7 +12,7 @@
                         <tbody>
                         <tr>
                             <th style="width: 10px">#</th>
-                            <th>Курєр</th>
+                            <th>Кур'єр</th>
                             <th>Створені</th>
                             <th>Прийняті</th>
                             <th>Відхилені</th>

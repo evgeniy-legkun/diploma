@@ -73,7 +73,7 @@ class TransactionManager
 
         if ($courier->role != User::ROLE_COURIER) {
             throw new TransactionManagerException(
-                'Тільки курєри можуть перевозити матеріали'
+                "Тільки кур'єри можуть перевозити матеріали"
             );
         }
 

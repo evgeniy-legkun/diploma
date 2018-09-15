@@ -2,7 +2,7 @@
     <div>
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1>Карта складов</h1>
+            <h1>Карта складів</h1>
         </section>
         <section class="content">
             <div class="box">
@@ -73,7 +73,7 @@
             for (const warehouse of this.warehouses) {
               markersList.push({
                 routeData: {
-                  name: 'warehouse-edit',
+                  name: 'warehouse-materials',
                   params: {
                     id: warehouse.id
                   }
